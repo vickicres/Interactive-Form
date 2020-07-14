@@ -2,11 +2,14 @@
 const usernameInput = document.getElementById('name');
 // focus on "name" field element by default.
 usernameInput.focus();
+
 /******************** *********************
 target job role section 
 ********************* *********************/
+
 const jobRoleOption = document.getElementById('title');
 const otherJobInput = document.getElementById('other-title');
+
 //target the 'other' input field and hide it initially.
 // hide the "other" job roles text box
 otherJobInput.hidden = true;
@@ -18,9 +21,12 @@ jobRoleOption.addEventListener('change', (e) => {
         otherJobInput.hidden = true;
     }
 });
+
+
 /******************** *********************
 target t-shirt info section
 ********************* *********************/
+
 //const sizeOption = document.getElementById('size');
 const colorOption = document.getElementById('color');
 const designOption = document.getElementById('design');
@@ -47,9 +53,11 @@ designOption.addEventListener('change', (e) => {
         designOption.firstElementChild.hidden = false;
     }
 });
+
 /******************** *********************
 register for activities section
 ********************* *********************/
+
 // create a variable to store all the checkboxes
 const checkboxActivity = document.querySelector('.activities');
 const checkboxes = document.querySelectorAll('label input');
@@ -85,9 +93,11 @@ checkboxActivity.addEventListener('change', (e) => {
         }
     }
 });
+
 /******************** *********************
 payment info section
 ********************* *********************/
+
 const payment = document.getElementById('payment');
 const creditCard = document.getElementById('credit-card');
 const paypal = document.getElementById('paypal');
@@ -116,9 +126,11 @@ payment.addEventListener('change', (e) => {
         paypal.hidden = true;
     }
 });
+
 /******************** *********************
 Form validation
 ********************* *********************/
+
 //valid username
 const nameValidator = () => {
     const nameError = document.querySelector('label[for="name"]');
@@ -236,9 +248,12 @@ const cvvValidator = () => {
         return false;
     }
 }
+
+
 /******************** *********************
  real time validation 
 ********************* *********************/
+
 const form = document.querySelector("form");
 form.addEventListener('submit', (e) => {
     if (!nameValidator()) {
