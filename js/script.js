@@ -151,7 +151,6 @@ const nameValidator = () => {
  // come out false. if the user did not enter the name then the erro message will show.
 }
 
-
 //valid email address
 const emailValidator = () => {
     const emailInput = document.getElementById('mail');
@@ -165,26 +164,36 @@ const emailValidator = () => {
     const emailDot = emailValue.lastIndexOf('.');
     if (emailSymbol > 1 && emailDot > (emailSymbol + 1)) {
         emailError.hidden = true;
+
         emailInput.style.borderColor = 'white';
         return true;
     } else {
         emailError.hidden = false;
         emailError.innerHTML = 'Please enter a valid email address!'
         emailError.style.color = 'red';
+
+        emailInput.style.borderColor = '';
+        return true;
+    } else {
+        emailError.hidden = false;
+        emailError.innerHTML = 'Please enter a valid email address.'
         emailError.style.display = 'red';
         emailInput.style.borderColor = 'red';
         emailError.style.fontSize = '20px';
         return false;
     }
+
     
  // came out false. if the user didn't enter the email address then the error message will show. 
 }
+
 
 
 //valid activity section
 // Using for loop function to check if an activity has been checked or not
 const activityValidator = () => {
     for (let i = 0; i < checkboxes.length; i++) {
+
             if (checkboxes[i].checked) {
                 checkboxActivity.firstElementChild.style.borderColor = 'red';
                 return true;
@@ -195,6 +204,18 @@ const activityValidator = () => {
     checkboxActivity.firstElementChild.style.color = 'red';
     return false;
 }
+
+        if (checkboxes[i].type === "checkbox") {
+            if (checkboxes[i].checked) {
+                return true;
+            }
+        }
+    }
+    checkboxActivity.firstElementChild.style.borderColor = 'red';
+    return false;
+}
+
+
 
 //valid credit card number
 const creditCardInput = document.getElementById('cc-num');
