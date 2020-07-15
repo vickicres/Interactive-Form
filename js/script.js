@@ -127,6 +127,8 @@ payment.addEventListener('change', (e) => {
     }
 });
 
+
+
 /******************** *********************
 Form validation
 ********************* *********************/
@@ -150,6 +152,8 @@ const nameValidator = () => {
     }
  // come out false. if the user did not enter the name then the erro message will show.
 }
+
+
 
 //valid email address
 const emailValidator = () => {
@@ -182,8 +186,7 @@ const emailValidator = () => {
         emailError.style.fontSize = '20px';
         return false;
     }
-
-    
+  
  // came out false. if the user didn't enter the email address then the error message will show. 
 }
 
@@ -204,17 +207,6 @@ const activityValidator = () => {
     checkboxActivity.firstElementChild.style.color = 'red';
     return false;
 }
-
-        if (checkboxes[i].type === "checkbox") {
-            if (checkboxes[i].checked) {
-                return true;
-            }
-        }
-    }
-    checkboxActivity.firstElementChild.style.borderColor = 'red';
-    return false;
-}
-
 
 
 //valid credit card number
@@ -247,6 +239,8 @@ const creditCardValidator = () => {
         return false;
     }
 }
+
+
 //valid zip code
 const zipCodeInput = document.getElementById('zip');
 const zipcodeValidator = () => {
@@ -266,6 +260,8 @@ const zipcodeValidator = () => {
         return false;
     }
 }
+
+
 //valid cvv
 const cvvInput = document.getElementById('cvv');
 const cvvValidator = () => {
