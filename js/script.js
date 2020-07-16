@@ -90,10 +90,7 @@ checkboxActivity.addEventListener('change', (e) => {
             } else {
                 checkboxes[i].disabled = false;
             }
-      
-        }
-        
-        
+        }  
     }
 });
 
