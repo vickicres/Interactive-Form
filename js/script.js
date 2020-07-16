@@ -90,7 +90,10 @@ checkboxActivity.addEventListener('change', (e) => {
             } else {
                 checkboxes[i].disabled = false;
             }
+      
         }
+        
+        
     }
 });
 
@@ -136,21 +139,21 @@ Form validation
 //valid username
 const nameValidator = () => {
     const nameError = document.querySelector('label[for="name"]');
-    let nameValue = usernameInput.value;
-    if (nameValue.length > 0 ) {
+    const nameValue = usernameInput.value;
+    if (nameValue.length > 0) {
         nameError.style.borderColor = 'white';
         nameError.hidden = true;
         return true;
     } else {
         nameError.hidden = false;
         usernameInput.style.borderColor = 'red';
-        nameError.innerHTML = 'Please enter your name.';
+        nameError.innerHTML = 'Please enter your name!';
         nameError.style.color = 'red';
         nameError.style.display = 'red';
         nameError.style.fontSize = '20px';
         return false;
     }
- // come out false. if the user did not enter the name then the erro message will show.
+    // come out false. if the user did not enter the name then the erro message will show.
 }
 
 
@@ -159,7 +162,7 @@ const nameValidator = () => {
 const emailValidator = () => {
     const emailInput = document.getElementById('mail');
     const emailError = document.querySelector('label[for="mail"]');
-    let email = /^[^@]+@[^@.]+\.[a-z]+$/i.test(mail);
+    const email = /^[^@]+@[^@.]+\.[a-z]+$/i.test(mail);
     //create a variable to store email input value
     const emailValue = emailInput.value;
     //create a variable to store the .indexOf of the '@' in email value
@@ -168,26 +171,19 @@ const emailValidator = () => {
     const emailDot = emailValue.lastIndexOf('.');
     if (emailSymbol > 1 && emailDot > (emailSymbol + 1)) {
         emailError.hidden = true;
-
         emailInput.style.borderColor = 'white';
         return true;
     } else {
         emailError.hidden = false;
-        emailError.innerHTML = 'Please enter a valid email address!'
+        emailError.innerHTML = 'Please enter a valid email address!';
         emailError.style.color = 'red';
-
-        emailInput.style.borderColor = '';
-        return true;
-    } else {
-        emailError.hidden = false;
-        emailError.innerHTML = 'Please enter a valid email address.'
-        emailError.style.display = 'red';
-        emailInput.style.borderColor = 'red';
         emailError.style.fontSize = '20px';
+        emailInput.style.borderColor = 'red';
+        emailError.style.display = 'red';
         return false;
     }
-  
- // came out false. if the user didn't enter the email address then the error message will show. 
+
+    // came out false. if the user didn't enter the email address then the error message will show. 
 }
 
 
@@ -196,45 +192,39 @@ const emailValidator = () => {
 // Using for loop function to check if an activity has been checked or not
 const activityValidator = () => {
     for (let i = 0; i < checkboxes.length; i++) {
-
-            if (checkboxes[i].checked) {
-                checkboxActivity.firstElementChild.style.borderColor = 'red';
-                return true;
-            }
+        if (checkboxes[i].checked) {
+            return true;
+        }
     }
-    checkboxActivity.firstElementChild.style.borderColor = 'red';
-    checkboxActivity.firstElementChild.innerHTML = 'Activites checkboxes at least one must be selected';
+    checkboxActivity.style.border = 'solid red';
+    checkboxActivity.style.padding = '5px 15px';
+    checkboxActivity.firstElementChild.innerHTML = 'Activites checkboxes at least one must be selected!!';
     checkboxActivity.firstElementChild.style.color = 'red';
     return false;
 }
 
 
 //valid credit card number
+
 const creditCardInput = document.getElementById('cc-num');
 const ccErrorMessage = document.createElement('span');
 ccErrorMessage.className = 'cc-error';
-creditCardInput.appendChild(ccErrorMessage);
+ccErrorMessage.textContent = 'Please enter a valid credit card number must have 13 and 16 digits.'
+ccErrorMessage.style.color = 'red';
+creditCardInput.parentElement.appendChild(ccErrorMessage);
 ccErrorMessage.hidden = true;
+
 const creditCardValidator = () => {
-    let creditValue = /^\d{13,16}$/.test(ccinput);
-    const ccinput = creditCardInput.value;
-    if (creditValue === true) {
+
+    const creditValue = creditCardInput.value;
+    const credit = /^[0-9]{13,16}$/.test(creditCardInput);
+
+    if (creditValue.length >= 13 && creditValue.length <= 16) {
+        creditCardInput.style.borderColor = 'white';
+        ccErrorMessage.hidden = true;
         return true;
-        if (creditValue.length >= 13 && creditValue.length <= 16) {
-            creditCardInput.style.borderColor = '';
-            ccErrorMessage.hidden = true;
-            return true;
-        } else if (creditValue === '') {
-            ccErrorMessage.innerHTML = 'Please enter a valid credit card number';
-            ccErrorMessage.hidden = false;
-            ccErrorMessage.style.color = 'red';
-            ccErrorMessage.style.borderColor = 'red';
-            return false;
-        }
     } else {
-        ccErrorMessage.innerHTML = 'Please enter numbers only';
         ccErrorMessage.hidden = false;
-        ccErrorMessage.style.color = 'red';
         creditCardInput.style.borderColor = 'red';
         return false;
     }
@@ -243,18 +233,16 @@ const creditCardValidator = () => {
 
 //valid zip code
 const zipCodeInput = document.getElementById('zip');
+
 const zipcodeValidator = () => {
-    let zipcodeValue = /^\d{5}$/.test(zipcode);
-    const zipcode = zipCodeInput.value;
-    if (zipcodeValue === true) {
-        if (zipcodeValue.length === 5) {
-            zipCodeInput.style.borderColor = '';
-            return true;
-        } else {
-            zipCodeInput.style.borderColor = 'red';
-            zipCodeInput.innerHTML = 'Please enter only 5 digits.'
-            return false;
-        }
+
+    const zipcodeValue = zipCodeInput.value;
+    const zipcode = /^[0-9]{5}$/.test(zipCodeInput);
+
+    if (zipcodeValue.length === 5) {
+        zipCodeInput.style.borderColor = 'white';
+        return true;
+
     } else {
         zipCodeInput.style.borderColor = 'red';
         return false;
@@ -264,21 +252,20 @@ const zipcodeValidator = () => {
 
 //valid cvv
 const cvvInput = document.getElementById('cvv');
+
 const cvvValidator = () => {
-    const cvv = cvvInput.value;
-    let cvvValue = /^\d{3}$/.test(cvv);
-    if (cvvValue === true) {
-        if (cvvValue.length === 3) {
-            cvvInput.style.borderColor = '';
-            return true;
-        } else {
-            cvvInput.style.borderColor = 'red';
-            return false;
-        }
+
+    const cvvValue = cvvInput.value;
+    const cvv = /^[0-9]{3}$/.test(cvvInput);
+
+    if (cvvValue.length === 3) {
+        cvvInput.style.borderColor = 'white';
+        return true;
     } else {
         cvvInput.style.borderColor = 'red';
         return false;
     }
+
 }
 
 
@@ -287,7 +274,10 @@ const cvvValidator = () => {
 ********************* *********************/
 
 const form = document.querySelector("form");
+
+
 form.addEventListener('submit', (e) => {
+
     if (!nameValidator()) {
         e.preventDefault();
         console.log(nameValidator());
@@ -296,18 +286,23 @@ form.addEventListener('submit', (e) => {
         e.preventDefault();
         console.log(emailValidator());
     }
+
     if (!activityValidator()) {
         e.preventDefault();
         console.log(activityValidator());
     }
-//    if (!creditCardValidator()) {
-//        e.preventDefault();
-//    }
-//    if (!zipcodeValidator()) {
-//        e.preventDefault();
-//    }
-//    if (!cvvValidator()) {
-//        e.preventDefault();
-//    }
-    consloe.log('Submit handler is functional!')
+    if (!creditCardValidator()) {
+        e.preventDefault();
+        console.log(creditCardValidator());
+    }
+    if (!zipcodeValidator()) {
+        e.preventDefault();
+        console.log(zipcodeValidator());
+    }
+    if (!cvvValidator()) {
+        e.preventDefault();
+        console.log(cvvValidator());
+    }
+
+    //    consloe.log('Submit handler is functional!');
 });
