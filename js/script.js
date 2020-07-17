@@ -34,9 +34,37 @@ const designOption = document.getElementById('design');
 const colorSelectElement = document.getElementById('colors-js-puns');
 //Hide the colors in the “Color” drop down menu.
 colorSelectElement.hidden = true;
+
+
+// create default option when no theme selected
+const defaultOption = document.createElement('option');
+defaultOption.textContent = 'Please select a T-shirt theme';
+defaultOption.selected = true;
+colorOption.insertBefore(defaultOption, colorOption.firstChild);
+
+const cornflowerblue = document.querySelector('option[value="cornflowerblue"]');
+const darks = document.querySelector('option[value="darkslategrey"]');
+const gold = document.querySelector('option[value="gold"]');
+
+const tomato = document.querySelector('option[value="tomato"]');
+const steelblue = document.querySelector('option[value="steelblue"]');
+const dimgrey = document.querySelector('option[value="dimgrey"]');
+
+if (defaultOption.hidden === false) {
+    colorSelectElement.hidden = false;
+    defaultOption.hidden = true;
+    cornflowerblue.hidden = true;
+    darks.hidden = true;
+    gold.hidden = true;
+    tomato.hidden = true;
+    steelblue.hidden = true;
+    dimgrey.hidden = true;
+}
+
 //add event listener to design element
 designOption.addEventListener('change', (e) => {
     colorSelectElement.hidden = false;
+
     // display 'js puns' option only
     if (e.target.value === 'js puns') {
         colorSelectElement.innerHTML = '<label for="color">Color:</label><select id="color"><option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option><option value="darkslategrey">Dark Slate Grey (JS Puns shirt only) </option><option value="gold">Gold (JS Puns shirt only)</option></select>';
@@ -49,7 +77,6 @@ designOption.addEventListener('change', (e) => {
         designOption.firstElementChild.hidden = true;
         // if no theme to be chosen, then display default option
     } else {
-        colorSelectElement.innerHTML = '';
         designOption.firstElementChild.hidden = false;
     }
 });
@@ -90,7 +117,7 @@ checkboxActivity.addEventListener('change', (e) => {
             } else {
                 checkboxes[i].disabled = false;
             }
-        }  
+        }
     }
 });
 
@@ -135,31 +162,31 @@ Form validation
 
 //valid username
 const nameValidator = () => {
-    const nameError = document.querySelector('label[for="name"]');
     const nameValue = usernameInput.value;
-    if (nameValue.length > 0) {
-        nameError.style.borderColor = 'white';
-        nameError.hidden = true;
-        return true;
-    } else {
-        nameError.hidden = false;
+    const errorName = document.querySelector('label[for="name"]');
+    //    let validName = /^\w$/i.test(name);
+
+    if (nameValue === '') {
         usernameInput.style.borderColor = 'red';
-        nameError.innerHTML = 'Please enter your name!';
-        nameError.style.color = 'red';
-        nameError.style.display = 'red';
-        nameError.style.fontSize = '20px';
+        errorName.style.color = 'red';
+        return false;
+    } else {
+        usernameInput.style.borderColor = 'white';
+        errorName.style.color = '';
         return false;
     }
     // come out false. if the user did not enter the name then the erro message will show.
 }
 
+// add real time input name error display
+usernameInput.addEventListener('keyup', nameValidator);
 
+// create email variable
+const emailInput = document.getElementById('mail');
 
-//valid email address
 const emailValidator = () => {
-    const emailInput = document.getElementById('mail');
+
     const emailError = document.querySelector('label[for="mail"]');
-    const email = /^[^@]+@[^@.]+\.[a-z]+$/i.test(mail);
     //create a variable to store email input value
     const emailValue = emailInput.value;
     //create a variable to store the .indexOf of the '@' in email value
@@ -167,64 +194,80 @@ const emailValidator = () => {
     // create a variable to store the .lastindexOf the '.' in the email value
     const emailDot = emailValue.lastIndexOf('.');
     if (emailSymbol > 1 && emailDot > (emailSymbol + 1)) {
-        emailError.hidden = true;
         emailInput.style.borderColor = 'white';
-        return true;
-    } else {
-        emailError.hidden = false;
-        emailError.innerHTML = 'Please enter a valid email address!';
-        emailError.style.color = 'red';
-        emailError.style.fontSize = '20px';
-        emailInput.style.borderColor = 'red';
-        emailError.style.display = 'red';
+        emailError.style.color = '';
         return false;
+    } else {
+        emailError.style.color = 'red';
+        emailInput.style.borderColor = 'red';
+        return true;
     }
 
     // came out false. if the user didn't enter the email address then the error message will show. 
 }
 
-
+// add real time email input error display
+emailInput.addEventListener('keyup', emailValidator);
 
 //valid activity section
 // Using for loop function to check if an activity has been checked or not
 const activityValidator = () => {
     for (let i = 0; i < checkboxes.length; i++) {
         if (checkboxes[i].checked) {
-            return true;
+            checkboxActivity.firstElementChild.style.color = '';
+            checkboxActivity.style.border = '';
+            checkboxActivity.style.paddingLeft = 0;
+            checkboxActivity.firstElementChild.innerHTML = 'Register for Activities';
+            return false;
         }
     }
     checkboxActivity.style.border = 'solid red';
-    checkboxActivity.style.padding = '5px 15px';
+    checkboxActivity.style.paddingLeft = '10px';
     checkboxActivity.firstElementChild.innerHTML = 'Activites checkboxes at least one must be selected!!';
     checkboxActivity.firstElementChild.style.color = 'red';
-    return false;
+    return true;
 }
 
+checkboxActivity.addEventListener('click', activityValidator);
 
 //valid credit card number
 
 const creditCardInput = document.getElementById('cc-num');
-const ccErrorMessage = document.createElement('span');
-ccErrorMessage.className = 'cc-error';
-ccErrorMessage.textContent = 'Please enter a valid credit card number must have 13 and 16 digits.'
-ccErrorMessage.style.color = 'red';
-creditCardInput.parentElement.appendChild(ccErrorMessage);
+
+// create an error message variables
+const ccErrorMessage = document.createElement('p');
+
+// Hides error message
 ccErrorMessage.hidden = true;
 
 const creditCardValidator = () => {
-
+    const ccError = document.querySelector('label[for="cc-num"]');
     const creditValue = creditCardInput.value;
-    const credit = /^[0-9]{13,16}$/.test(creditCardInput);
-
-    if (creditValue.length >= 13 && creditValue.length <= 16) {
+    let credit = /^\d{13,16}$/;
+    if (credit.test(creditValue) === true) {
         creditCardInput.style.borderColor = 'white';
+        ccError.style.color = '';
         ccErrorMessage.hidden = true;
         return true;
-    } else {
+        
+    } else if (creditValue.length >= 1 && creditValue.length <= 12) {
+            ccErrorMessage.innerHTML = 'Please enter only numbers that is between 13 and 16 digits long.';
+            creditCardInput.parentElement.appendChild(ccErrorMessage);
+            ccErrorMessage.hidden = false;
+            ccErrorMessage.style.color = 'red';
+            creditCardInput.style.borderColor = 'red';
+            ccError.style.color = 'red';
+            return false;
+        } else {
+        ccErrorMessage.innerHTML = 'Please enter a valid credit card numbers';
+        creditCardInput.parentElement.appendChild(ccErrorMessage);
         ccErrorMessage.hidden = false;
+        ccErrorMessage.style.color = 'red';
         creditCardInput.style.borderColor = 'red';
+        ccError.style.color = 'red';
         return false;
     }
+
 }
 
 
@@ -232,16 +275,19 @@ const creditCardValidator = () => {
 const zipCodeInput = document.getElementById('zip');
 
 const zipcodeValidator = () => {
+    const zipError = document.querySelector('label[for="zip"]');
 
     const zipcodeValue = zipCodeInput.value;
-    const zipcode = /^[0-9]{5}$/.test(zipCodeInput);
+    let zipcode = /^\d{5}$/;
 
-    if (zipcodeValue.length === 5) {
+    if (zipcode.test(zipcodeValue) === true) {
         zipCodeInput.style.borderColor = 'white';
+        zipError.style.color = '';
         return true;
 
     } else {
         zipCodeInput.style.borderColor = 'red';
+        zipError.style.color = 'red';
         return false;
     }
 }
@@ -251,18 +297,41 @@ const zipcodeValidator = () => {
 const cvvInput = document.getElementById('cvv');
 
 const cvvValidator = () => {
+    const cvvError = document.querySelector('label[for="cvv"]');
 
     const cvvValue = cvvInput.value;
-    const cvv = /^[0-9]{3}$/.test(cvvInput);
+    const cvv = /^\d{3}$/;
 
-    if (cvvValue.length === 3) {
+    if (cvv.test(cvvValue) === true) {
         cvvInput.style.borderColor = 'white';
+        cvvError.style.color = '';
         return true;
     } else {
         cvvInput.style.borderColor = 'red';
+        cvvError.style.color = 'red';
         return false;
     }
+}
 
+
+// credit card payment validate
+
+const validtePayment = () => {
+    creditCardValidator();
+    zipcodeValidator();
+    cvvValidator();
+
+    if (payment.value === 'credit card') {
+        if (creditCardValidator() === false) {
+            return false;
+        }
+        if (zipcodeValidator() === false) {
+           return false;
+        }
+        if (activityValidator() === false) {
+           return false;
+        }
+    }
 }
 
 
@@ -271,7 +340,6 @@ const cvvValidator = () => {
 ********************* *********************/
 
 const form = document.querySelector("form");
-
 
 form.addEventListener('submit', (e) => {
 
@@ -288,17 +356,21 @@ form.addEventListener('submit', (e) => {
         e.preventDefault();
         console.log(activityValidator());
     }
-    if (!creditCardValidator()) {
+    //    if (!creditCardValidator()) {
+    //        e.preventDefault();
+    //        console.log(creditCardValidator());
+    //    }
+    //    if (!zipcodeValidator()) {
+    //        e.preventDefault();
+    //        console.log(zipcodeValidator());
+    //    }
+    //    if (!cvvValidator()) {
+    //        e.preventDefault();
+    //        console.log(cvvValidator());
+    //    }
+    if (!validtePayment()) {
         e.preventDefault();
-        console.log(creditCardValidator());
-    }
-    if (!zipcodeValidator()) {
-        e.preventDefault();
-        console.log(zipcodeValidator());
-    }
-    if (!cvvValidator()) {
-        e.preventDefault();
-        console.log(cvvValidator());
+        console.log(validtePayment());
     }
 
     //    consloe.log('Submit handler is functional!');
