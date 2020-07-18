@@ -337,17 +337,14 @@ const validatePayment = () => {
     cvvValidator();
 
     if (payment.value === 'credit card') {
-        if (creditCardValidator() === false) {
+        if (creditCardValidator() === false && zipcodeValidator() === false && cvvValidator() === false) {
             return false;
         }
-        if (zipcodeValidator() === false) {
-            return false;
-        }
-        if (activityValidator() === false) {
-            return false;
-        } 
+        
     } else {
-        return true;
+         if (creditCardValidator() === true && zipcodeValidator() === true && cvvValidator() === true) {
+            return true;
+        }
     }
 }
 
