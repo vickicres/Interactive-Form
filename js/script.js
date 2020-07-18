@@ -3,6 +3,7 @@ const usernameInput = document.getElementById('name');
 // focus on "name" field element by default.
 usernameInput.focus();
 
+
 /******************** *********************
 target job role section 
 ********************* *********************/
@@ -50,6 +51,7 @@ const tomato = document.querySelector('option[value="tomato"]');
 const steelblue = document.querySelector('option[value="steelblue"]');
 const dimgrey = document.querySelector('option[value="dimgrey"]');
 
+// only show the default option if no theme selected and hide the color drop down.
 if (defaultOption.hidden === false) {
     colorSelectElement.hidden = false;
     defaultOption.hidden = true;
@@ -70,16 +72,19 @@ designOption.addEventListener('change', (e) => {
         colorSelectElement.innerHTML = '<label for="color">Color:</label><select id="color"><option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option><option value="darkslategrey">Dark Slate Grey (JS Puns shirt only) </option><option value="gold">Gold (JS Puns shirt only)</option></select>';
         // hide the 'select theme'
         designOption.firstElementChild.hidden = true;
+
         //display 'heart js' option only
     } else if (e.target.value === 'heart js') {
         colorSelectElement.innerHTML = '<label for="color">Color:</label><select id="color"><option value="tomato">Tomato (I &#9829; JS shirt only)</option><option value="steelblue">Steel Blue (I &#9829; JS shirt only)</option><option value="dimgrey">Dim Grey (I &#9829; JS shirt only)</option></select>';
         // hide the 'select theme'
         designOption.firstElementChild.hidden = true;
+
         // if no theme to be chosen, then display default option
     } else {
         designOption.firstElementChild.hidden = false;
     }
 });
+
 
 /******************** *********************
 register for activities section
@@ -88,6 +93,7 @@ register for activities section
 // create a variable to store all the checkboxes
 const checkboxActivity = document.querySelector('.activities');
 const checkboxes = document.querySelectorAll('label input');
+
 //create total cost
 let totalCost = 0;
 const calculateCosts = document.createElement('h3');
@@ -120,6 +126,7 @@ checkboxActivity.addEventListener('change', (e) => {
         }
     }
 });
+
 
 /******************** *********************
 payment info section
@@ -173,7 +180,7 @@ const nameValidator = () => {
     } else {
         usernameInput.style.borderColor = 'white';
         errorName.style.color = '';
-        return false;
+        return true;
     }
     // come out false. if the user did not enter the name then the erro message will show.
 }
@@ -184,23 +191,30 @@ usernameInput.addEventListener('keyup', nameValidator);
 // create email variable
 const emailInput = document.getElementById('mail');
 
+//create error email message element
+const errorMessage = document.createElement('p');
+errorMessage.hidden = true;
+
 const emailValidator = () => {
 
     const emailError = document.querySelector('label[for="mail"]');
     //create a variable to store email input value
     const emailValue = emailInput.value;
-    //create a variable to store the .indexOf of the '@' in email value
-    const emailSymbol = emailValue.indexOf('@');
-    // create a variable to store the .lastindexOf the '.' in the email value
-    const emailDot = emailValue.lastIndexOf('.');
-    if (emailSymbol > 1 && emailDot > (emailSymbol + 1)) {
+    //input email regex element
+    let email = /^[^@]+@[^@.]+\.[a-z]+$/i;
+
+    if (email.test(emailValue) === true) {
         emailInput.style.borderColor = 'white';
         emailError.style.color = '';
-        return false;
-    } else {
-        emailError.style.color = 'red';
-        emailInput.style.borderColor = 'red';
+        errorMessage.hidden = true;
         return true;
+    } else {
+        emailInput.style.borderColor = 'red';
+        emailError.style.color = 'red';
+        errorMessage.hidden = false;
+        errorMessage.innerHTML = 'Please enter a valid email address must include "@" and "."';
+        emailError.appendChild(errorMessage);
+        return false;
     }
 
     // came out false. if the user didn't enter the email address then the error message will show. 
@@ -228,6 +242,7 @@ const activityValidator = () => {
     return true;
 }
 
+//add real time activity 
 checkboxActivity.addEventListener('click', activityValidator);
 
 //valid credit card number
@@ -249,16 +264,16 @@ const creditCardValidator = () => {
         ccError.style.color = '';
         ccErrorMessage.hidden = true;
         return true;
-        
+
     } else if (creditValue.length >= 1 && creditValue.length <= 12) {
-            ccErrorMessage.innerHTML = 'Please enter only numbers that is between 13 and 16 digits long.';
-            creditCardInput.parentElement.appendChild(ccErrorMessage);
-            ccErrorMessage.hidden = false;
-            ccErrorMessage.style.color = 'red';
-            creditCardInput.style.borderColor = 'red';
-            ccError.style.color = 'red';
-            return false;
-        } else {
+        ccErrorMessage.innerHTML = 'Please enter only numbers that is between 13 and 16 digits long.';
+        creditCardInput.parentElement.appendChild(ccErrorMessage);
+        ccErrorMessage.hidden = false;
+        ccErrorMessage.style.color = 'red';
+        creditCardInput.style.borderColor = 'red';
+        ccError.style.color = 'red';
+        return false;
+    } else {
         ccErrorMessage.innerHTML = 'Please enter a valid credit card numbers';
         creditCardInput.parentElement.appendChild(ccErrorMessage);
         ccErrorMessage.hidden = false;
@@ -314,7 +329,7 @@ const cvvValidator = () => {
 }
 
 
-// credit card payment validate
+// set credit card payment validate
 
 const validtePayment = () => {
     creditCardValidator();
@@ -326,10 +341,10 @@ const validtePayment = () => {
             return false;
         }
         if (zipcodeValidator() === false) {
-           return false;
+            return false;
         }
         if (activityValidator() === false) {
-           return false;
+            return false;
         }
     }
 }
