@@ -232,14 +232,14 @@ const activityValidator = () => {
             checkboxActivity.style.border = '';
             checkboxActivity.style.paddingLeft = 0;
             checkboxActivity.firstElementChild.innerHTML = 'Register for Activities';
-            return false;
+            return true;
         }
     }
     checkboxActivity.style.border = 'solid red';
     checkboxActivity.style.paddingLeft = '10px';
     checkboxActivity.firstElementChild.innerHTML = 'Activites checkboxes at least one must be selected!!';
     checkboxActivity.firstElementChild.style.color = 'red';
-    return true;
+    return false;
 }
 
 //add real time activity 
@@ -331,7 +331,7 @@ const cvvValidator = () => {
 
 // set credit card payment validate
 
-const validtePayment = () => {
+const validatePayment = () => {
     creditCardValidator();
     zipcodeValidator();
     cvvValidator();
@@ -345,7 +345,9 @@ const validtePayment = () => {
         }
         if (activityValidator() === false) {
             return false;
-        }
+        } 
+    } else {
+        return true;
     }
 }
 
@@ -383,9 +385,9 @@ form.addEventListener('submit', (e) => {
     //        e.preventDefault();
     //        console.log(cvvValidator());
     //    }
-    if (!validtePayment()) {
+    if (!validatePayment()) {
         e.preventDefault();
-        console.log(validtePayment());
+        console.log(validatePayment());
     }
 
     //    consloe.log('Submit handler is functional!');
