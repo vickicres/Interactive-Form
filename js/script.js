@@ -336,16 +336,13 @@ const validatePayment = () => {
     zipcodeValidator();
     cvvValidator();
 
-    if (payment.value === 'credit card') {
         if (creditCardValidator() === false && zipcodeValidator() === false && cvvValidator() === false) {
             return false;
+        }  else {
+             return true;
+            
         }
-        
-    } else {
-         if (creditCardValidator() === true && zipcodeValidator() === true && cvvValidator() === true) {
-            return true;
-        }
-    }
+    
 }
 
 
@@ -382,10 +379,12 @@ form.addEventListener('submit', (e) => {
     //        e.preventDefault();
     //        console.log(cvvValidator());
     //    }
+if (payment.value === 'credit card') {
     if (!validatePayment()) {
         e.preventDefault();
         console.log(validatePayment());
     }
+        }
 
     //    consloe.log('Submit handler is functional!');
 });
