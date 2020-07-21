@@ -336,7 +336,7 @@ const validatePayment = () => {
     zipcodeValidator();
     cvvValidator();
 
-        if (creditCardValidator() === false && zipcodeValidator() === false && cvvValidator() === false) {
+        if (creditCardValidator() === false || zipcodeValidator() === false || cvvValidator() === false) {
             return false;
         }  else {
              return true;
